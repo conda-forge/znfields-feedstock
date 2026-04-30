@@ -1,0 +1,44 @@
+schema_version: 1
+
+context:
+  name: znfields
+  version: "0.1.2"
+  python_min: "3.10"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/znfields-${{ version }}.tar.gz
+  sha256: 5d9e1894f1a766dd5675db1b1b05cfc6b5c9d78da84a5b01d0baffd5ca49a065
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python 3.10.*
+    - poetry-core
+    - pip
+  run:
+    - python >=${{ python_min }},<4.0.0
+
+tests:
+  - python:
+      imports:
+        - znfields
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Lazy evaluation of dataclass fields
+  license: Apache-2.0
+  license_file: LICENSE
+  homepage: https://github.com/zincware/znfields
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
